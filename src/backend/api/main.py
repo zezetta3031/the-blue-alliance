@@ -1,5 +1,6 @@
 from json import JSONDecodeError
 
+from backend.api.handlers.search import search_index
 from flask import Blueprint, Flask, make_response, Response
 from flask_cors import CORS
 from google.appengine.api import wrap_wsgi_app
@@ -277,6 +278,9 @@ api_v3.add_url_rule(
 api_v3.add_url_rule(
     "/insights/leaderboards/<int:year>", view_func=insights_leaderboards_year
 )
+
+# Search
+api_v3.add_url_rule("/search_index", view_func=search_index)
 
 # Trusted API
 trusted_api = Blueprint("trusted_api", __name__, url_prefix="/api/trusted/v1")
