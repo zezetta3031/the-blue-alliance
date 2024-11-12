@@ -3,7 +3,6 @@ import {
   ClientLoaderFunctionArgs,
   MetaFunction,
   Params,
-  json,
   useLoaderData,
   useNavigate,
 } from '@remix-run/react';
@@ -134,7 +133,7 @@ async function loadData(params: Params) {
 }
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  return json(await loadData(params));
+  return await loadData(params);
 }
 
 export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
