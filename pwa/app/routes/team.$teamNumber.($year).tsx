@@ -1,7 +1,6 @@
 import { LoaderFunctionArgs } from '@remix-run/node';
 import {
   ClientLoaderFunctionArgs,
-  Link,
   MetaFunction,
   Params,
   json,
@@ -9,12 +8,6 @@ import {
   useNavigate,
 } from '@remix-run/react';
 import { useMemo } from 'react';
-
-import BiCalendar from '~icons/bi/calendar';
-import BiGraphUp from '~icons/bi/graph-up';
-import BiInfoCircleFill from '~icons/bi/info-circle-fill';
-import BiLink from '~icons/bi/link';
-import BiPinMapFill from '~icons/bi/pin-map-fill';
 
 import {
   Award,
@@ -31,18 +24,9 @@ import {
   getTeamSocialMedia,
   getTeamYearsParticipated,
 } from '~/api/v3';
-import InlineIcon from '~/components/tba/inlineIcon';
-import TeamAvatar from '~/components/tba/teamAvatar';
 import TeamEventAppearance from '~/components/tba/teamEventAppearance';
+import TeamPageTeamInfo from '~/components/tba/teamPageTeamInfo';
 import TeamRobotPicsCarousel from '~/components/tba/teamRobotPicsCarousel';
-import TeamSocialMediaList from '~/components/tba/teamSocialMediaList';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '~/components/ui/accordion';
-import { Badge } from '~/components/ui/badge';
 import {
   Select,
   SelectContent,
@@ -76,10 +60,6 @@ import {
   calculateTeamRecordsFromMatches,
   getTeamsUnpenalizedHighScore,
 } from '~/lib/matchUtils';
-import {
-  attemptToParseSchoolNameFromOldTeamName,
-  attemptToParseSponsors,
-} from '~/lib/teamUtils';
 import {
   addRecords,
   parseParamsForYearElseDefault,
@@ -215,10 +195,6 @@ export default function TeamPage(): React.JSX.Element {
     [media],
   );
 
-  const sponsors = attemptToParseSponsors(team.name);
-  const schoolName =
-    team.school_name ?? attemptToParseSchoolNameFromOldTeamName(team.name);
-
   return (
     <div className="flex flex-wrap sm:flex-nowrap">
       <div className="top-0 mr-4 pt-5 sm:sticky">
@@ -231,6 +207,7 @@ export default function TeamPage(): React.JSX.Element {
             <SelectValue placeholder={year} />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="History">History</SelectItem>
             {yearsParticipated.map((y) => (
               <SelectItem key={y} value={`${y}`}>
                 {y}
@@ -256,77 +233,11 @@ export default function TeamPage(): React.JSX.Element {
       <div className="mt-5 w-full">
         <div className="flex flex-wrap justify-center sm:flex-nowrap sm:justify-between">
           <div className="flex flex-col justify-between">
-            <div>
-              <h1 className="mb-2.5 text-4xl">
-                {maybeAvatar && <TeamAvatar media={maybeAvatar} />}
-                Team {team.team_number} - {team.nickname}
-              </h1>
-              <InlineIcon>
-                <BiPinMapFill />
-                <a
-                  href={`https://maps.google.com/maps?q=${team.city}, ${team.state_prov}, ${team.country}`}
-                >
-                  {team.city}, {team.state_prov}, {team.country}
-                </a>
-              </InlineIcon>
-
-              {sponsors.length > 0 ? (
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="item-1" className="border-0">
-                    <AccordionTrigger className="justify-normal p-0 text-left font-normal">
-                      <InlineIcon displayStyle={'flexless'}>
-                        <BiInfoCircleFill />
-                        {schoolName}
-                        {sponsors.length > 0 &&
-                          ` with ${pluralize(sponsors.length, ' sponsor', ' sponsors')}`}
-                      </InlineIcon>
-                    </AccordionTrigger>
-                    <AccordionContent className="pb-0">
-                      {sponsors.map((sponsor, i) => (
-                        <Badge
-                          className="m-px font-normal"
-                          key={i}
-                          variant={'secondary'}
-                        >
-                          {sponsor}
-                        </Badge>
-                      ))}
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              ) : (
-                <InlineIcon displayStyle={'flexless'}>
-                  <BiInfoCircleFill />
-                  {schoolName}
-                </InlineIcon>
-              )}
-
-              <InlineIcon>
-                <BiCalendar />
-                Rookie Year: {team.rookie_year}
-              </InlineIcon>
-
-              <InlineIcon>
-                <BiLink />
-                Details on{' '}
-                <Link
-                  to={`https://frc-events.firstinspires.org/team/${team.team_number}`}
-                >
-                  FRC Events
-                </Link>
-              </InlineIcon>
-
-              <InlineIcon>
-                <BiGraphUp />
-                <Link to={`https://www.statbotics.io/team/${team.team_number}`}>
-                  Statbotics
-                </Link>
-              </InlineIcon>
-            </div>
-
-            <div className="flex flex-wrap justify-center md:justify-start">
-              <TeamSocialMediaList socials={socials} />
-            </div>
+            <TeamPageTeamInfo
+              maybeAvatar={maybeAvatar}
+              socials={socials}
+              team={team}
+            />
           </div>
           <div className="flex-none">
             <TeamRobotPicsCarousel media={robotPics} />
