@@ -265,6 +265,35 @@ jobs:
           TBA_API_READ_KEY: TEST_KEY
       - name: Run Build
         run: npm --prefix pwa run build
+  pwa-e2e:
+    name: "[pwa] E2E Tests"
+    runs-on: ubuntu-latest
+    steps:
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm --prefix pwa ci
+      
+      - name: Install Playwright Browsers
+        run: npx --prefix pwa playwright install --with-deps
+      
+      - name: Run Playwright tests
+        run: npx --prefix pwa playwright test
+      
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: pwa-playwright-report
+          path: pwa/playwright-report/
+          retention-days: 30
+
   bash-lint:
     name: "[bash] Lint"
     runs-on: ubuntu-latest
