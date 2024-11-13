@@ -105,7 +105,11 @@ export const Nav = () => {
     <div className="fixed z-10 flex w-full grow justify-center bg-primary shadow-md">
       <GlobalLoadingProgress />
       <NavigationMenu className="gap-6 px-4 py-2.5">
-        <Link to="/" className="flex items-center gap-3 hover:no-underline">
+        <Link
+          to="/"
+          className="flex items-center gap-3 hover:no-underline"
+          id="tba-logo-link"
+        >
           <img
             src={lamp}
             className="size-6 max-w-none"
