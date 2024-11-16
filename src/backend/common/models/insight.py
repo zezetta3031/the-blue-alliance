@@ -47,6 +47,10 @@ class Insight(CachedModel):
     TYPED_LEADERBOARD_MOST_AWARDS = 28
     TYPED_LEADERBOARD_MOST_NON_CHAMPS_EVENT_WINS = 29
     TYPED_LEADERBOARD_MOST_UNIQUE_TEAMS_PLAYED_WITH_AGAINST = 30
+    TYPED_NOTABLES_DIVISION_WINNERS = 31
+    TYPED_NOTABLES_DIVISION_FINALS_APPEARANCES = 32
+    TYPED_NOTABLES_WORLD_CHAMPIONS = 33
+    TYPED_NOTABLES_HALL_OF_FAME = 34
     YEAR_SPECIFIC_BY_WEEK = 999
     YEAR_SPECIFIC = 1000
 
@@ -83,6 +87,10 @@ class Insight(CachedModel):
         TYPED_LEADERBOARD_MOST_AWARDS: "typed_leaderboard_most_awards",
         TYPED_LEADERBOARD_MOST_NON_CHAMPS_EVENT_WINS: "typed_leaderboard_most_non_champs_event_wins",
         TYPED_LEADERBOARD_MOST_UNIQUE_TEAMS_PLAYED_WITH_AGAINST: "typed_leaderboard_most_unique_teams_played_with_against",
+        TYPED_NOTABLES_DIVISION_WINNERS: "notables_division_winners",
+        TYPED_NOTABLES_DIVISION_FINALS_APPEARANCES: "notables_division_finals_appearances",
+        TYPED_NOTABLES_WORLD_CHAMPIONS: "notables_world_champions",
+        TYPED_NOTABLES_HALL_OF_FAME: "notables_hall_of_fame",
         YEAR_SPECIFIC_BY_WEEK: "year_specific_by_week",
         YEAR_SPECIFIC: "year_specific",
     }
@@ -109,6 +117,13 @@ class Insight(CachedModel):
         TYPED_LEADERBOARD_MOST_AWARDS: "team",
         TYPED_LEADERBOARD_MOST_NON_CHAMPS_EVENT_WINS: "team",
         TYPED_LEADERBOARD_MOST_UNIQUE_TEAMS_PLAYED_WITH_AGAINST: "team",
+    }
+
+    NOTABLE_INSIGHTS = {
+        TYPED_NOTABLES_DIVISION_WINNERS,
+        TYPED_NOTABLES_DIVISION_FINALS_APPEARANCES,
+        TYPED_NOTABLES_WORLD_CHAMPIONS,
+        TYPED_NOTABLES_HALL_OF_FAME,
     }
 
     name = ndb.StringProperty(required=True)  # general name used for sorting
