@@ -9,8 +9,8 @@ from backend.common.models.insight import Insight
 from backend.common.queries.insight_query import InsightsLeaderboardsYearQuery
 
 
-@api_authenticated
-@cached_public
+# @api_authenticated
+# @cached_public
 def insights_leaderboards_year(year: int) -> Response:
     track_call_after_response("insights/leaderboards", str(year))
 
