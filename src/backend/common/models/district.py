@@ -1,5 +1,5 @@
 import re
-from typing import List, Set
+from typing import Dict, List, Set
 
 from google.appengine.ext import ndb
 from pyre_extensions import safe_cast

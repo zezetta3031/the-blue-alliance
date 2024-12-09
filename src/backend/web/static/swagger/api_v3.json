@@ -3816,6 +3816,66 @@
         ]
       }
     },
+    "/district/{district_abbreviation}/history": {
+      "get": {
+        "tags": [
+          "district"
+        ],
+        "description": "Gets a list of District objects with the given district abbreviation. This accounts for district abbreviation changes, such as MAR to FMA.",
+        "operationId": "getDistrict",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/If-None-Match"
+          },
+          {
+            "$ref": "#/components/parameters/district_abbreviation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "headers": {
+              "Cache-Control": {
+                "description": "The `Cache-Control` header, in particular the `max-age` value, contains the number of seconds the result should be considered valid for. During this time subsequent calls should return from the local cache directly.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "description": "Specifies the version of the most recent response. Used by clients in the `If-None-Match` request header.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/District_List"
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "$ref": "#/components/responses/NotModified"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/district/{district_key}/events": {
       "get": {
         "tags": [
@@ -8548,6 +8608,15 @@
         "name": "event_key",
         "in": "path",
         "description": "TBA Event Key, eg `2016nytr`",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "district_abbreviation": {
+        "name": "district_abbreviation",
+        "in": "path",
+        "description": "District abbreviation, eg `ne` or `fim`",
         "required": true,
         "schema": {
           "type": "string"
