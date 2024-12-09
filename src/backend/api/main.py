@@ -16,6 +16,7 @@ from backend.api.handlers.client_api import (
     update_model_preferences,
 )
 from backend.api.handlers.district import (
+    district,
     district_events,
     district_list_year,
     district_rankings,
@@ -121,6 +122,7 @@ CORS(
 api_v3.add_url_rule("/status", view_func=status)
 
 # District
+api_v3.add_url_rule("/district/<string:district_abbreviation>", view_func=district)
 api_v3.add_url_rule("/district/<string:district_key>/events", view_func=district_events)
 api_v3.add_url_rule(
     "/district/<string:district_key>/events/<model_type:model_type>",

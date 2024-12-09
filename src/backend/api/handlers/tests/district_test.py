@@ -26,11 +26,13 @@ def test_district_events(ndb_stub, api_client: Client) -> None:
         id="2019fim",
         year=2019,
         abbreviation="fim",
+        display_name="Michigan",
     ).put()
     District(
         id="2020fim",
         year=2020,
         abbreviation="fim",
+        display_name="Michigan",
     ).put()
     Event(
         id="2019casj",
@@ -115,6 +117,34 @@ def test_district_events(ndb_stub, api_client: Client) -> None:
     assert len(resp.json) == 2
     assert "2020casf" in resp.json
     assert "2020casj" in resp.json
+
+    resp = api_client.get(
+        "/api/v3/district/fim",
+        headers={"X-TBA-Auth-Key": "test_auth_key"},
+    )
+    assert resp.status_code == 200
+    assert len(resp.json) == 2
+    assert resp.json == [
+        {
+            "abbreviation": "fim",
+            "display_name": "Michigan",
+            "key": "2019fim",
+            "year": 2019,
+        },
+        {
+            "abbreviation": "fim",
+            "display_name": "Michigan",
+            "key": "2020fim",
+            "year": 2020,
+        },
+    ]
+
+    resp = api_client.get(
+        "/api/v3/district/notadistrict",
+        headers={"X-TBA-Auth-Key": "test_auth_key"},
+    )
+    assert resp.status_code == 200
+    assert resp.json == []
 
 
 def test_district_teams(ndb_stub, api_client: Client) -> None:
