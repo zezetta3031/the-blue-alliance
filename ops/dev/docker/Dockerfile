@@ -26,7 +26,6 @@ RUN apt-get update && apt-get install -y \
     "$PYTHON_VERSION" \
     "$PYTHON_VERSION-venv" \
     "$PYTHON_VERSION-dev" \
-    "$PYTHON_VERSION-distutils" \
     python3-pip
 RUN update-alternatives --install /usr/bin/python python "/usr/bin/$PYTHON_VERSION" 1
 RUN update-alternatives --install /usr/bin/python3 python3 "/usr/bin/$PYTHON_VERSION" 1
