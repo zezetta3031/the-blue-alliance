@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
 # Needed for Python 3.12
 RUN apt-get install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa -y
+RUN apt-get remove -y python3.12-minimal
 
 # Setup python environment
 ENV PYTHON_VERSION python3.12
@@ -25,7 +26,6 @@ RUN apt-get update && apt-get install -y \
     "$PYTHON_VERSION" \
     "$PYTHON_VERSION-venv" \
     "$PYTHON_VERSION-dev" \
-    "$PYTHON_VERSION-distutils" \
     python3-pip
 RUN update-alternatives --install /usr/bin/python python "/usr/bin/$PYTHON_VERSION" 1
 RUN update-alternatives --install /usr/bin/python3 python3 "/usr/bin/$PYTHON_VERSION" 1
