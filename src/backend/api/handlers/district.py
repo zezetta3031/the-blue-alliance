@@ -40,6 +40,21 @@ def district_history(district_abbreviation: DistrictAbbreviation) -> Response:
 
 
 @api_authenticated
+@cached_public
+def district_history(district_abbreviation: DistrictAbbreviation) -> Response:
+    """
+    Returns a list of District objects with the given district abbreviation. Accounts for abbreviation changes.
+    """
+    track_call_after_response("district", district_abbreviation)
+
+    districts = DistrictAbbreviationQuery(
+        abbreviation=district_abbreviation
+    ).fetch_dict(ApiMajorVersion.API_V3)
+
+    return profiled_jsonify(districts)
+
+
+@api_authenticated
 @validate_keys
 @cached_public
 def district_events(
