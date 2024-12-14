@@ -3782,10 +3782,8 @@ export function getInsightsNotablesYear(
 export function getSearchIndex(
   {
     ifNoneMatch,
-    year,
   }: {
     ifNoneMatch?: string;
-    year: number;
   },
   opts?: Oazapfts.RequestOpts,
 ) {
