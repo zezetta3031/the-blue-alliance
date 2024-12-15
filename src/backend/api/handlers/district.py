@@ -14,6 +14,7 @@ from backend.api.handlers.helpers.track_call import track_call_after_response
 from backend.common.consts.api_version import ApiMajorVersion
 from backend.common.decorators import cached_public
 from backend.common.models.keys import DistrictAbbreviation, DistrictKey
+from backend.common.queries.award_query import EventAwardsQuery
 from backend.common.queries.district_query import (
     DistrictAbbreviationQuery,
     DistrictQuery,
