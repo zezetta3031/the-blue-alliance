@@ -112,7 +112,8 @@ class EventDetails(CachedModel):
                 if game_year == 2021:
                     # 2021 did not have matches played for rankings
                     continue
-
+                elif not rank["sort_orders"]:
+                    continue
                 elif game_year >= 2017:
                     rank["extra_stats"] = [
                         int(round(rank["sort_orders"][0] * rank["matches_played"])),
@@ -174,10 +175,11 @@ class EventDetails(CachedModel):
             row = [rank["rank"], rank["team_key"][3:]]
             # for i, item in enumerate(rank['sort_orders']):
             for i, precision in enumerate(precisions):
-                # row.append('%.*f' % (precisions[i], round(item, precisions[i])))
-                row.append(
-                    "%.*f" % (precision, round(rank["sort_orders"][i], precision))
-                )
+                if i < len(rank["sort_orders"]):
+                    # row.append('%.*f' % (precisions[i], round(item, precisions[i])))
+                    row.append(
+                        "%.*f" % (precision, round(rank["sort_orders"][i], precision))
+                    )
             if rank["record"]:
                 record = none_throws(rank["record"])
                 row.append(f"{record['wins']}-{record['losses']}-{record['ties']}")

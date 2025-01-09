@@ -67,7 +67,7 @@ jobs:
         if: contains(github.event.commits[0].message, '[clowntown]') == false
         run: ./ops/test_py3.sh --cov --splits 3 --group ${{ matrix.group }}
       - name: Save coverage artifacts
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.5.0
         with:
           name: coverage${{ matrix.group }}
           path: .coverage
@@ -78,10 +78,11 @@ jobs:
     needs: [py3-test]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python 3.8
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.12"
+          cache: "pip"
       - name: Install Dependencies
         if: contains(github.event.commits[0].message, '[clowntown]') == false
         run: |
@@ -96,7 +97,7 @@ jobs:
           coverage xml
       - name: Upload coverage to Codecov
         if: contains(github.event.commits[0].message, '[clowntown]') == false
-        uses: codecov/codecov-action@v5.0.2
+        uses: codecov/codecov-action@v5.1.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage.xml
@@ -106,7 +107,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "18"
           cache: "npm"
@@ -122,7 +123,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "18"
           cache: "npm"
@@ -134,7 +135,7 @@ jobs:
         run: ./ops/test_node.sh
       - name: Upload coverage to Codecov
         if: contains(github.event.commits[0].message, '[clowntown]') == false
-        uses: codecov/codecov-action@v5.0.2
+        uses: codecov/codecov-action@v5.1.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./.node_coverage/
@@ -144,7 +145,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "20"
           cache: "npm"
@@ -163,7 +164,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "20"
           cache: "npm"
@@ -179,7 +180,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "20"
           cache: "npm"
@@ -196,7 +197,7 @@ jobs:
         run: npm --prefix pwa test
       - name: Upload coverage to Codecov
         if: contains(github.event.commits[0].message, '[clowntown]') == false
-        uses: codecov/codecov-action@v5.0.2
+        uses: codecov/codecov-action@v5.1.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./pwa/coverage/
@@ -206,7 +207,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "20"
           cache: "npm"
@@ -221,7 +222,7 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.5.0
         with:
           name: pwa-build
           path: pwa/build
@@ -258,7 +259,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Set up Node
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "18"
           cache: "npm"
@@ -272,7 +273,7 @@ jobs:
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.5.0
         with:
           name: web-build
           path: src/build
@@ -297,7 +298,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Set up Node
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "18"
           cache: "npm"
@@ -320,7 +321,7 @@ jobs:
           driver-opts: network=host
       - name: Build Docker Image
         if: contains(github.event.commits[0].message, '[clowntown]') == false
-        uses: docker/build-push-action@v6.9.0
+        uses: docker/build-push-action@v6.10.0
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./ops/dev/docker
