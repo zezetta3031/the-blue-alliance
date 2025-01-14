@@ -7,6 +7,12 @@ import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
+declare module '@remix-run/node' {
+  // or cloudflare, deno, etc.
+  interface Future {
+    v3_singleFetch: true;
+  }
+}
 function getCommitHash(): string {
   try {
     return child.execSync('git rev-parse --short HEAD').toString();
@@ -24,6 +30,8 @@ export default defineConfig({
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
         v3_throwAbortReason: true,
+        v3_lazyRouteDiscovery: true,
+        v3_singleFetch: true,
       },
       presets: [RemixPWAPreset()],
     }),
